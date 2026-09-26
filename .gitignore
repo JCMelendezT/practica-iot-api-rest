@@ -1,0 +1,49 @@
+# -----------------------------------------------------------------------------
+# Sistema y editores
+# -----------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# -----------------------------------------------------------------------------
+# Vagrant
+# -----------------------------------------------------------------------------
+# .vagrant/ guarda el estado de la maquina virtual y la llave privada de la VM.
+# NUNCA se sube: es estado local de cada computador.
+.vagrant/
+*.box
+
+# -----------------------------------------------------------------------------
+# Node
+# -----------------------------------------------------------------------------
+# node_modules/ se reinstala solo con `npm ci` (ver provision/04-node.sh).
+# Se sube package-lock.json para que las versiones sean reproducibles.
+node_modules/
+npm-debug.log*
+.npm/
+
+# -----------------------------------------------------------------------------
+# Python
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+
+# -----------------------------------------------------------------------------
+# Secretos
+# -----------------------------------------------------------------------------
+# El token de Ubidots es una credencial personal de cada estudiante.
+# El unico archivo que se sube es .env.example, que no tiene el valor real.
+.env
+.env.local
+practica.env
+
+# -----------------------------------------------------------------------------
+# MySQL / dumps
+# -----------------------------------------------------------------------------
+*.sql.gz
+*.dump

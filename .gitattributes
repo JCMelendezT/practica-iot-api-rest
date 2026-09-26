@@ -1,0 +1,31 @@
+# =============================================================================
+# Los scripts de aprovisionamiento se EJECUTAN dentro de una VM Linux.
+# Si Git los entrega con finales de linea CRLF (que es el default en Windows),
+# bash falla con errores tipo "command not found" o "$'\r': command not found".
+#
+# Por eso se fuerza LF en TODO el repositorio, sin importar el sistema operativo
+# del clonador. Es la diferencia entre que el laboratorio funcione en la primera
+# `vagrant up` o que falle el script 01.
+# =============================================================================
+
+* text=auto eol=lf
+
+# Los que de verdad se ejecutan dentro de la VM
+*.sh   text eol=lf
+Vagrantfile text eol=lf
+
+# Codigo
+*.py   text eol=lf
+*.js   text eol=lf
+*.json text eol=lf
+*.sql  text eol=lf
+
+# Documentacion
+*.md   text eol=lf
+.env.example text eol=lf
+
+# Sin conversion: binarios
+*.png  binary
+*.jpg  binary
+*.ico  binary
+*.box  binary
