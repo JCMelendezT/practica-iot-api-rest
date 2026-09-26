@@ -1,10 +1,10 @@
 # Parte 2: Ubidots
 
-## Que demuestra
+## Qué demuestra
 
-Que los datos pueden vivir **fuera de la máquina**, en un servicio en la nube, y que para hablar con ese servicio hace falta una credencial personal. Ubidots agrega dos cosas que las otras partes no tienen: un limite de uso y un secreto.
+Que los datos pueden vivir **fuera de la máquina**, en un servicio en la nube, y que para hablar con ese servicio hace falta una credencial personal. Ubidots agrega dos cosas que las otras partes no tienen: un límite de uso y un secreto.
 
-Esta parte **no es un servidor**. No expone `/books` y no escucha ningun puerto. Es un cliente: lee sensores simulados y los publica en un dispositivo de Ubidots.
+Esta parte **no es un servidor**. No expone `/books` y no escucha ningún puerto. Es un cliente: lee sensores simulados y los publica en un dispositivo de Ubidots.
 
 ## Como obtener el token
 
@@ -55,10 +55,10 @@ notepad .env
 
 | Punto | Detalle |
 |---|---|
-| Se sube `.env` al repositorio? | No. Esta en `.gitignore` |
+| Se sube `.env` al repositorio? | No. Está en `.gitignore` |
 | Qué sí se sube? | `.env.example`, que no tiene el valor real |
 | Se usa `.env` dentro de la VM? | No hace falta: alcanza con `export` |
-| Donde quedo la plantilla en la VM | En `/home/vagrant/practica.env.example` |
+| Dónde quedó la plantilla en la VM | En `/home/vagrant/practica.env.example` |
 
 El código lee el token de la variable de entorno, nunca de un archivo:
 
@@ -185,9 +185,9 @@ curl -i -X POST "https://industrial.api.ubidots.com/api/v1.6/devices/machine?tok
 | Criterio | Cabecera `X-Auth-Token` | Parámetro `?token=` |
 |---|---|---|
 | Seguridad | Recomendada | Funciona, pero es peor |
-| Queda en el historial del shell? | No, queda como `$UBIDOTS_TOKEN` | Si, completo |
-| Queda en los logs del servidor? | No aparece en la URL | Si aparece |
-| Se puede cachear mal? | No | Si, la URL completa se cachea |
+| Queda en el historial del shell? | No, queda como `$UBIDOTS_TOKEN` | Sí, completo |
+| Queda en los logs del servidor? | No aparece en la URL | Sí aparece |
+| Se puede cachear mal? | No | Sí, la URL completa se cachea |
 | Uso en la práctica | La que usa `testUbidots.py` | Se muestra para comparar |
 
 > Que decir: "Las dos funcionan, y esa es la razon de ser de la parte 2. La diferencia es de seguridad, no de funcionalidad. En la forma con `?token=` el secreto queda escrito en la línea de comandos, sobrevive en el historial del shell y aparece en los logs del servidor. La forma correcta es la cabecera."

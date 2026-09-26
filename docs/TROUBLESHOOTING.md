@@ -99,13 +99,13 @@ sudo systemctl start mysql
 sudo systemctl enable mysql
 ```
 
-Si el servicio dice `active`, el problema es otro: revisa la contrasena (sección 4) o el puerto 3306. El usuario root solo existe como `root@localhost`, así que desde fuera de la VM un login como root se rechaza siempre: eso es normal, no es un fallo.
+Si el servicio dice `active`, el problema es otro: revisa la contraseña (sección 4) o el puerto 3306. El usuario root solo existe como `root@localhost`, así que desde fuera de la VM un login como root se rechaza siempre: eso es normal, no es un fallo.
 
 ---
 
 ## 4. `Access denied for user 'root'@'localhost'`
 
-**Causa.** La autenticación no matchea. El laboratorio deja a root con contrasena `root` y plugin `caching_sha2_password`. Si la petición no tiene contrasena, o usa otra, MySQL rechaza.
+**Causa.** La autenticación no matchea. El laboratorio deja a root con contraseña `root` y plugin `caching_sha2_password`. Si la petición no tiene contraseña, o usa otra, MySQL rechaza.
 
 **Solución.** Usar la forma completa:
 

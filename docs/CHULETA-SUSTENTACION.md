@@ -235,7 +235,7 @@ Consola interactiva:
 
 ```bash
 # (dentro de la VM) Abre la consola de MySQL sobre la base de la practica.
-# DECIR: "Conecto como root, que es el único usuario que existe, y entro a myflaskapp."
+# DECIR: "Conecto como root, que es el único usuario que existe, y entró a myflaskapp."
 sudo mysql -u root -proot myflaskapp
 ```
 
@@ -387,7 +387,7 @@ Lo que **no** hay que hacer durante la defensa:
 
 | Comando | Que hace | Usar |
 |---|---|---|
-| `vagrant halt` + `vagrant up` | Conserva los datos | Si |
+| `vagrant halt` + `vagrant up` | Conserva los datos | Sí |
 | `vagrant destroy` | Borra el disco, hay que reprovisionar | No, salvo que te lo pidan |
 | `vagrant provision` | **Resetea la base** | No durante la defensa |
 
@@ -461,7 +461,7 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"title":"Desde Node","d
 
 ```bash
 # (dentro de la VM) Ahora lo leo por Flask, en el puerto 5000. Aparece sin haber pasado por Node.
-# DECIR: "Lo leo con Flask y el libro que creo Node aparece igual, sin ninguna traduccion.
+# DECIR: "Lo leo con Flask y el libro que creó Node aparece igual, sin ninguna traducción.
 # Las dos APIs apuntan a la misma tabla myflaskapp, y el lenguaje no es lo que define el dato."
 curl -i http://localhost:5000/books
 ```
@@ -493,7 +493,7 @@ Indice rapido. El detalle está en [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 | `AttributeError: 'NoneType' object has no attribute 'cursor'` | Flask-MySQLdb sin fijar; instalo PyMySQL en vez de mysqlclient | Verificar el pin en `provision/03-python.sh` |
 | `Address already in use` en el puerto 5000 | Parte 1 y Parte 3 corriendo a la vez | `Ctrl+C` en la otra terminal |
 | `Can't connect to MySQL server` | MySQL detenido | `sudo systemctl start mysql` |
-| `Access denied for user 'root'@'localhost'` | Contrasena distinta de `root` | Usar `-u root -proot` |
+| `Access denied for user 'root'@'localhost'` | Contraseña distinta de `root` | Usar `-u root -proot` |
 | `There are errors in the configuration of this machine` | Opción `owner:` obsoleta de un Vagrantfile viejo | Actualizar el `Vagrantfile` del repositorio |
 | pip falla al compilar `mysqlclient` | Faltan las dependencias de compilación | Reejecutar `vagrant provision` tras confirmar el paso 01 |
 | `npm ci` falla | `package-lock.json` desalineado de `package.json` | Reejecutar `provision/04-node.sh` |
@@ -507,16 +507,16 @@ Indice rapido. El detalle está en [TROUBLESHOOTING.md](TROUBLESHOOTING.md).
 ## 7. Las cinco preguntas más probables
 
 **1. Cual es la diferencia entre la Parte 1 y la Parte 3?**
-La Parte 1 guarda los libros en una lista de Python dentro del proceso, y el proceso no escribe en ningun disco: si lo detengo, los datos desaparecen. La Parte 3 ejecuta exactamente el mismo SQL contra MySQL, y los datos quedan en la tabla `books` del disco de la VM, así que sobreviven al reinicio.
+La Parte 1 guarda los libros en una lista de Python dentro del proceso, y el proceso no escribe en ningún disco: si lo detengo, los datos desaparecen. La Parte 3 ejecuta exactamente el mismo SQL contra MySQL, y los datos quedan en la tabla `books` del disco de la VM, así que sobreviven al reinicio.
 
-**2. Por que el `id` en la Parte 1 lo genera el código y en la Parte 3 lo genera MySQL?**
+**2. Por qué el `id` en la Parte 1 lo genera el código y en la Parte 3 lo genera MySQL?**
 La Parte 1 no tiene base de datos, así que el id tiene que salir de algún lado: el código toma el último de la lista y le suma uno, `books[-1]['id'] + 1`. En la Parte 3 la columna está declarada `AUTO_INCREMENT`, así que MySQL lleva la cuenta y garantiza unicidad. Esa diferencia es la causa directa de que el `POST` de la Parte 3 no pueda devolver el id: el código ejecuta el `INSERT` y nunca vuelve a leer el valor generado.
 
-**3. Por que la Parte 3 devuelve 500 en vez de 404?**
-Porque `get_book()` ejecuta `cur.fetchall()` y después accede a `book[0]` sin comprobar que la lista tenga elementos. Con un id inexistente la consulta devuelve cero filas, `book[0]` lanza `IndexError`, y Flask responde con su pagina genérica de 500. No es un descuido del ejercicio: es la línea base que el Desafio viene a corregir, porque la versión en Node sí valida `rows.length === 0` y responde 404.
+**3. Por qué la Parte 3 devuelve 500 en vez de 404?**
+Porque `get_book()` ejecuta `cur.fetchall()` y después accede a `book[0]` sin comprobar que la lista tenga elementos. Con un id inexistente la consulta devuelve cero filas, `book[0]` lanza `IndexError`, y Flask responde con su página genérica de 500. No es un descuido del ejercicio: es la línea base que el Desafio viene a corregir, porque la versión en Node sí valida `rows.length === 0` y responde 404.
 
-**4. Por que los datos sobreviven a `vagrant halt` y `vagrant up`?**
+**4. Por qué los datos sobreviven a `vagrant halt` y `vagrant up`?**
 Porque los datos están en el disco de la máquina virtual, no en la memoria de un proceso. `halt` apaga la VM sin borrar el disco, y el aprovisionamiento solo corre en el primer `vagrant up`, así que al volver a levantar la máquina los datos siguen ahí. Lo único que borra el disco es `vagrant destroy`.
 
-**5. Por que hacer la misma API en dos lenguajes?**
+**5. Por qué hacer la misma API en dos lenguajes?**
 Para demostrar que el contrato REST es el entregable, no el framework. Flask con `Flask-MySQLdb` y Express con `mysql2` son tecnologías distintas, y aun así las dos exponen el mismo contrato. Además, la versión en Node mejora tres cosas concretas de la línea base de Flask: responde 404 en vez de 500, el `PUT` devuelve el estado final del recurso, y el `POST` devuelve el id generado.

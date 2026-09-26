@@ -1,6 +1,6 @@
 # Parte 3: MySQL
 
-## Que demuestra
+## Qué demuestra
 
 Que mover el dato de la RAM a un **disco** convierte la API en un sistema persistente. Los datos sobreviven a que se detenga el proceso y a que se apague la máquina virtual.
 
@@ -33,7 +33,7 @@ INSERT INTO books (id, title, description, author) VALUES
 | Base de datos | `myflaskapp` |
 | Tabla | `books` |
 | Servidor | MySQL 8.0.46 |
-| Usuario | `root`@`localhost`, contrasena `root` |
+| Usuario | `root`@`localhost`, contraseña `root` |
 | Plugin de autenticación | `caching_sha2_password` |
 | Listen | `bind-address = 0.0.0.0` |
 | Datos iniciales | 2 filas |
@@ -57,8 +57,8 @@ Comparación con la Parte 1:
 | | Parte 1 | Parte 3 |
 |---|---|---|
 | Quien asigna el id | El código, con `books[-1]['id'] + 1` | MySQL, con `AUTO_INCREMENT` |
-| Donde vive | En la RAM del proceso | En el disco de la VM |
-| El `POST` puede devolver el id | Si, ya lo conoce | No, tendría que volver a consultarlo |
+| Dónde vive | En la RAM del proceso | En el disco de la VM |
+| El `POST` puede devolver el id | Sí, ya lo conoce | No, tendría que volver a consultarlo |
 
 Esa última fila explica una diferencia observable en el contrato: el `POST` de la Parte 3 devuelve el cuerpo que le mandaron, sin el `id`.
 
@@ -142,7 +142,7 @@ Atajo de una línea, sin abrir la consola:
 sudo mysql -u root -proot myflaskapp -e "SELECT * FROM books;"
 ```
 
-Dentro de la VM, `mysql -u root -proot myflaskapp` funciona igual sin `sudo`, porque el usuario `root@localhost` existe con contrasena. El `sudo` se usa en los scripts de aprovisionamiento por si MySQL quedara con `auth_socket`.
+Dentro de la VM, `mysql -u root -proot myflaskapp` funciona igual sin `sudo`, porque el usuario `root@localhost` existe con contraseña. El `sudo` se usa en los scripts de aprovisionamiento por si MySQL quedara con `auth_socket`.
 
 ## Comportamiento verificado de los endpoints
 
@@ -174,7 +174,7 @@ book = cur.fetchall()
 return jsonify({'book': book[0]})
 ```
 
-Con un id inexistente, `fetchall()` devuelve una lista vacía y `book[0]` lanza `IndexError`. Flask no tiene un manejador para esa excepción, así que responde con su pagina genérica de 500.
+Con un id inexistente, `fetchall()` devuelve una lista vacía y `book[0]` lanza `IndexError`. Flask no tiene un manejador para esa excepción, así que responde con su página genérica de 500.
 
 El contraste con la Parte 1 es el punto de la demostración:
 

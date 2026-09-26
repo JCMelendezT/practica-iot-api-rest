@@ -1,8 +1,8 @@
 # Parte 1: memoria
 
-## Que demuestra
+## Qué demuestra
 
-Que un dato guardado en la RAM de un proceso es **volátil**: existe mientras el proceso vive y desaparece en cuanto el proceso termina. Ningun disco fue escrito.
+Que un dato guardado en la RAM de un proceso es **volátil**: existe mientras el proceso vive y desaparece en cuanto el proceso termina. Ningún disco fue escrito.
 
 Esta es la línea base de la práctica. En las partes siguientes los datos se mueven a lugares que sobreviven: la nube de Ubidots y el disco de MySQL.
 
@@ -34,7 +34,7 @@ Dos consecuencias inmediatas:
 | Pregunta | Respuesta |
 |---|---|
 | Dónde se guarda? | En la memoria del proceso de Python |
-| Quién escribe en disco? | Nadie. Esta versión no importa nada a MySQL ni a ningun archivo |
+| Quién escribe en disco? | Nadie. Esta versión no importa nada a MySQL ni a ningún archivo |
 | Qué pasa al reiniciar? | La lista vuelve a ser la del archivo: los 2 libros originales |
 | Qué pasa con el id? | Lo genera el código: `books[-1]['id'] + 1` |
 
@@ -164,7 +164,7 @@ book[0]['author'] = request.json.get('author', book[0]['author'])
 curl -i -X PUT -H "Content-Type: application/json" -d '{"author":"Jorgito"}' http://localhost:5000/books/2
 ```
 
-Respuesta: el titulo y la descripción siguen siendo los originales, y la respuesta **sí** refleja el cambio.
+Respuesta: el título y la descripción siguen siendo los originales, y la respuesta **sí** refleja el cambio.
 
 ### `DELETE /books/<id>`
 
@@ -213,6 +213,6 @@ head -n 21 /home/vagrant/app/parte1-memoria/apirest.py
 
 ## Siguiente paso
 
-La Parte 1 no tiene ningun mecanismo de credenciales ni de servicio externo. La Parte 2 introduce los dos: una plataforma en la nube y una credencial personal.
+La Parte 1 no tiene ningún mecanismo de credenciales ni de servicio externo. La Parte 2 introduce los dos: una plataforma en la nube y una credencial personal.
 
 Continua con [PARTE-2-UBIDOTS.md](PARTE-2-UBIDOTS.md).

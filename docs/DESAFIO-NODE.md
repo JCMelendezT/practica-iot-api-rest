@@ -1,10 +1,10 @@
 # Desafio: la misma API en Node.js
 
-## Que demuestra
+## Qué demuestra
 
 Que el entregable real de la práctica es el **contrato REST**, no el framework. `app/desafio-node/server.js` expone la misma API que `app/parte3-mysql/apirest_mysql.py`, con otro lenguaje, otro framework, otro driver y otro puerto, y aun así se comporta igual.
 
-Además corrige cuatro problemas concretos de la línea base de Flask. Ese es el trabajo que se evalua.
+Además corrige cuatro problemas concretos de la línea base de Flask. Ese es el trabajo que se evalúa.
 
 ## Por que dos lenguajes
 
@@ -174,10 +174,10 @@ El orden de las partes importa:
 | Parte del objeto | Efecto |
 |---|---|
 | `...rows[0]` | Valores actuales, tomados del `SELECT` |
-| `...req.body` | Sobrescriben con lo que llego en la petición |
+| `...req.body` | Sobrescriben con lo que llegó en la petición |
 | `id: rows[0].id` | El id nunca cambia, aunque venga en el cuerpo |
 
-El resultado es un objeto con el estado final, y es ese objeto el que se responde. En la Parte 3, en cambio, se responde el diccionario leido **antes** del `UPDATE`.
+El resultado es un objeto con el estado final, y es ese objeto el que se responde. En la Parte 3, en cambio, se responde el diccionario leído **antes** del `UPDATE`.
 
 ### Mejora 3: el `POST` devuelve el id generado
 
@@ -233,11 +233,11 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"title":"Desde Node","d
 curl -i http://localhost:5000/books
 ```
 
-Y lo mismo al reves, para mostrar que no es una cuestion de orden:
+Y lo mismo al revés, para mostrar que no es una cuestión de orden:
 
 ```bash
 # (dentro de la VM) Creo un libro por Flask.
-# DECIR: "Y ahora al reves: creo por Flask."
+# DECIR: "Y ahora al revés: creó por Flask."
 curl -i -X POST -H "Content-Type: application/json" -d '{"title":"Desde Flask","description":"Insertado por Python","author":"Juan"}' http://localhost:5000/books
 ```
 
@@ -267,7 +267,7 @@ sudo mysql -u root -proot myflaskapp -e 'INSERT INTO books VALUES(NULL,"Desde SQ
 curl -i http://localhost:5000/books
 ```
 
-El id que aparece lo eligio MySQL, no ningun código de Python ni de JavaScript.
+El id que aparece lo eligió MySQL, no ningún código de Python ni de JavaScript.
 
 ```bash
 # (dentro de la VM) Limpieza: borro el libro de la prueba.

@@ -1,15 +1,17 @@
-# Práctica IoT API REST: donde viven los datos
+# Práctica IoT API REST: dónde viven los datos
 
-Cuatro etapas de la misma API REST de libros, cambiando **solamente donde se guardan los datos**: lista en memoria, nube de Ubidots, MySQL y Node.js. El hilo pedagogico de la práctica es la persistencia, no la calidad del código.
+Cuatro etapas de la misma API REST de libros, cambiando **solamente donde se guardan los datos**: lista en memoria, nube de Ubidots, MySQL y Node.js. El hilo pedagógico de la práctica es la persistencia, no la calidad del código.
 
-| Etapa | Directorio | Tecnología | Puerto | Donde viven los datos |
+> **La línea base de las Partes 1, 2 y 3 es código del docente**, adaptado y republicado aquí con su atribución. La Parte 4 (Desafío) y toda la infraestructura son trabajo propio. Los detalles de cada archivo están en [Procedencia y atribución](#procedencia-y-atribución).
+
+| Etapa | Directorio | Tecnología | Puerto | Dónde viven los datos |
 |---|---|---|---|---|
 | Parte 1 | `app/parte1-memoria/` | Flask 2.3.3 | 5000 | Lista de Python en RAM, se pierde al apagar el proceso |
 | Parte 2 | `app/parte2-ubidots/` | Python + `requests` | ninguno | Nube de Ubidots, 4000 puntos de datos por día |
 | Parte 3 | `app/parte3-mysql/` | Flask 2.3.3 + MySQL 8.0.46 | 5000 | Tabla `books` en `myflaskapp`, sobre el disco de la VM |
-| Desafio | `app/desafio-node/` | Node 22 + Express 5.2.1 | 3000 | La misma tabla `books`, leida desde otro lenguaje |
+| Desafio | `app/desafio-node/` | Node 22 + Express 5.2.1 | 3000 | La misma tabla `books`, leída desde otro lenguaje |
 
-Las cuatro etapas comparten un único contrato REST (`GET/POST/PUT/DELETE` sobre `/books`). Lo que cambia entre una y otra es la respuesta a una sola pregunta: **que pasa con el dato cuando el proceso termina**.
+Las cuatro etapas comparten un único contrato REST (`GET/POST/PUT/DELETE` sobre `/books`). Lo que cambia entre una y otra es la respuesta a una sola pregunta: **qué pasa con el dato cuando el proceso termina**.
 
 ## Arquitectura
 
@@ -98,7 +100,7 @@ Si ambos responden, el laboratorio está listo. Para apagarlo sin perder datos: 
 | `app/parte1-memoria/apirest.py` | API Flask con la lista de libros en memoria |
 | `app/parte1-memoria/README-origen.md` | Instrucciones de arranque que trae el proyecto de origen |
 | `app/parte2-ubidots/testUbidots.py` | Cliente que envía 5 variables a un dispositivo de Ubidots cada 10 s |
-| `app/parte3-mysql/apirest_mysql.py` | La misma API Flask, pero leida y escrita en MySQL |
+| `app/parte3-mysql/apirest_mysql.py` | La misma API Flask, pero leída y escrita en MySQL |
 | `app/parte3-mysql/init.sql` | Crea `myflaskapp`, la tabla `books` con `AUTO_INCREMENT` y 2 filas semilla |
 | `app/desafio-node/server.js` | La misma API en Express, con las correcciones del Desafio |
 | `app/desafio-node/package.json` | Declara `express ^5.2.1` y `mysql2 ^3.24.4` |
@@ -170,20 +172,23 @@ El paso 04 también está fijado por una razon equivalente: Ubuntu 22.04 trae No
 
 | Tema | Que hacer |
 |---|---|
-| Token de Ubidots | Es una credencial personal e intransferible. Va en la variable de entorno `UBIDOTS_TOKEN`; el archivo `.env` está en `.gitignore` y **nunca** se sube. Al repositorio solo va `.env.example`, sin el valor real. Cada estudiante usa su propio token: no se comparte, no se copia el de un companero. |
+| Token de Ubidots | Es una credencial personal e intransferible. Va en la variable de entorno `UBIDOTS_TOKEN`; el archivo `.env` está en `.gitignore` y **nunca** se sube. Al repositorio solo va `.env.example`, sin el valor real. Cada estudiante usa su propio token: no se comparte, no se copia el de un compañero. |
 | Token en la URL | Ubidots acepta el token como `?token=`. Funciona, pero queda en el historial del shell y en los logs del servidor. Se muestra en la práctica solo para comparar; la forma correcta es la cabecera `X-Auth-Token`. |
 | `bind-address = 0.0.0.0` en MySQL | Lo establece `provision/02-mysql.sh` para permitir herramientas gráficas desde Windows. **No abre root a la red**: el único usuario existente es `root@localhost`, así que un cliente remoto que intente entrar como root se rechaza igual. Aun así, MySQL queda escuchando en toda la red privada de Vagrant, no solo en loopback. |
 | Puerto 5000 | Flask arranca con `app.run(debug=True)`, que escucha solo en `127.0.0.1` dentro de la VM. Para exponerlo a Windows hay que arrancar con `python3 -m flask run --host=0.0.0.0`. |
-| Puerto 3000 | `app/desafio-node/server.js` escucha en `0.0.0.0:3000` a propósito, para que el companero lo alcance desde el host. |
-| Contrasena de MySQL | `root` / `root` es una credencial de laboratorio local. No la reutilices en ningun otro servicio. |
+| Puerto 3000 | `app/desafio-node/server.js` escucha en `0.0.0.0:3000` a propósito, para que el compañero lo alcance desde el host. |
+| Contraseña de MySQL | `root` / `root` es una credencial de laboratorio local. No la reutilices en ningún otro servicio. |
 
-## Procedencia
+## Procedencia y atribución
 
-Este repositorio es una práctica de estudiante de Compunube. Existe para que los companeros puedan reproducir exactamente el mismo escenario y defender las mismas conclusiones.
+Este repositorio es una práctica de estudiante de Compunube. Existe para que los compañeros puedan reproducir exactamente el mismo escenario y defender las mismas conclusiones.
 
-| Parte | Origen |
-|---|---|
-| Parte 1 | `app/parte1-memoria/apirest.py` deriva de <https://github.com/omondragon/APIRestFlask>, el punto de partida entregado para la práctica. Las instrucciones de arranque de ese proyecto están en `app/parte1-memoria/README-origen.md`. |
-| Parte 2 | `app/parte2-ubidots/testUbidots.py` deriva de <https://github.com/omondragon/UbidotsClient> y de la documentación oficial de Ubidots STEM. |
-| Parte 3 | `app/parte3-mysql/apirest_mysql.py` es el mismo contrato REST de la Parte 1, con la capa de MySQL encima. |
-| Desafio | `app/desafio-node/server.js` es el mismo contrato REST de nuevo, en JavaScript. |
+**La línea base es código del docente.** Las tres primeras partes adaptan proyectos entregados por el profesor y se reproducen aquí con su atribución, sin alterar el comportamiento que la práctica pide comparar. La Parte 4 y la infraestructura son trabajo propio del estudiante.
+
+| Parte | Archivo | Origen |
+|---|---|---|
+| Parte 1 | `app/parte1-memoria/apirest.py` | Adapta <https://github.com/omondragon/APIRestFlask>, el punto de partida entregado para la práctica. Sus instrucciones de arranque están en `app/parte1-memoria/README-origen.md`. |
+| Parte 2 | `app/parte2-ubidots/testUbidots.py` | Adapta <https://github.com/omondragon/UbidotsClient> y sigue la documentación oficial de Ubidots STEM. |
+| Parte 3 | `app/parte3-mysql/apirest_mysql.py` | Línea base entregada, tal cual: <https://github.com/omondragon/APIRestFlaskmySQLUbuntu>. Se conserva con el mismo `Flask-MySQLdb==1.0.1` que fijó el docente, a propósito, porque ese pin es lo que hace que el servidor funcione. |
+| Desafío | `app/desafio-node/server.js` | Trabajo propio del estudiante. No deriva de ningún proyecto anterior: es la reimplementación del mismo contrato REST en JavaScript, y es donde se corrigen los cuatro problemas de la línea base. |
+| Infraestructura | `Vagrantfile`, `provision/`, `docs/` | Trabajo propio del estudiante, sobre la box `bento/ubuntu-22.04`. |
